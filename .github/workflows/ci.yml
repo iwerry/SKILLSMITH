@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.10", "3.12"]
+        python-version: ["3.10", "3.12", "3.13"]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -18,7 +18,8 @@ jobs:
         run: python -m unittest discover -s tests -v
       - name: CLI smoke test
         run: |
-          python -m skillsmith create --name sample-planning --purpose "Creates planning reports" --when "the user requests a planning report" --output generated
+          python -m skillsmith validate --strict skill-smith
+          python -m skillsmith create --name sample-planning --purpose "Creates planning reports" --when "the user requests a planning report" --not-for "budget approvals" --output generated
           python -m skillsmith validate generated/sample-planning
           python -m skillsmith audit generated/sample-planning
           python -m skillsmith package generated/sample-planning --output dist

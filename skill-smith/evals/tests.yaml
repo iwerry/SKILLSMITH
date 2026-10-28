@@ -1,0 +1,41 @@
+skill_name: skill-smith
+positive_triggers:
+  - prompt: "Create a skill that turns meeting transcripts into action items."
+    expected_action: "ACTIVATED"
+  - prompt: "Turn this custom GPT prompt into a reusable SKILL.md."
+    expected_action: "ACTIVATED"
+  - prompt: "Audit my skill, it keeps firing for the wrong requests."
+    expected_action: "ACTIVATED"
+  - prompt: "Quero uma skill para revisar contratos de aluguel."
+    expected_action: "ACTIVATED"
+  - prompt: "Build a team of agents that researches, writes and edits my newsletter."
+    expected_action: "ACTIVATED"
+  - prompt: "Port this Claude skill so it works in Gemini too."
+    expected_action: "ACTIVATED"
+negative_triggers:
+  - prompt: "Write a caption for this photo."
+    expected_action: "NOT_ACTIVATED"
+    reason: "One-off answer, nothing reusable requested."
+  - prompt: "What skills should I put on my resume?"
+    expected_action: "NOT_ACTIVATED"
+    reason: "Career skills, not agent skills."
+  - prompt: "Fix the bug in this Python function."
+    expected_action: "NOT_ACTIVATED"
+    reason: "Ordinary coding task."
+operational_cases:
+  - test_id: "TC-01"
+    input: "Create a skill for weekly sales reports from CSV files."
+    verification_criteria:
+      - "Asks at most seven questions or states the assumptions it took."
+      - "Delivers SKILL.md with a description that says what, when and when not."
+      - "python -m skillsmith validate passes on the delivered folder."
+  - test_id: "TC-02"
+    input: "An existing SKILL.md whose description is 'Helps with reports.'"
+    verification_criteria:
+      - "Returns a 12-row audit table with evidence."
+      - "Rewrites the description with triggers and a negative boundary."
+  - test_id: "TC-03"
+    input: "Set up a harness that only allows read-only file tools and web search."
+    verification_criteria:
+      - "Lists the allowed tools explicitly."
+      - "States that the host must enforce the allow-list."
